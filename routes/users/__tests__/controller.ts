@@ -14,8 +14,9 @@ describe('POST ENDPOINT', () => {
     await User.deleteMany({ email: 'samfeolu@gmail.com' });
     mongoose.connection.close();
   });
+
   it('Should Return Bad Request If No Body Is Attached', async () => {
-    const res = await request(app).post('/users');
+    const res = await request(app).post('/api/v1/users');
     expect(res.status).toBe(400);
   });
   it('Should Return Bad Request If Invalid Body Is Attached', async () => {
@@ -24,18 +25,18 @@ describe('POST ENDPOINT', () => {
       lastname: 'Adedunye',
       email: 'samfeolu@gmail.com'
     };
-    const res = await request(app).post('/users');
+    const res = await request(app).post('/api/v1/users');
     expect(res.status).toBe(400);
   });
   it('Should Create A New User', async () => {
     const res = await request(app)
-      .post('/users')
+      .post('/api/v1/users')
       .send(data);
     expect(res.status).toBe(201);
   });
   it('Should Return Bad Request If Already Used Email Is Attached', async () => {
     const res = await request(app)
-      .post('/users')
+      .post('/api/v1/users')
       .send(data);
     expect(res.status).toBe(400);
   });
