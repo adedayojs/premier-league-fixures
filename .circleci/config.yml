@@ -27,7 +27,7 @@ jobs:
             - v1-dependencies-
 
       - run: yarn install
-      - run: mongod
+
       - save_cache:
           paths:
             - node_modules
