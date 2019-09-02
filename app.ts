@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
 
-import indexRouter from './routes/index';
+import apiRouter from './routes/apiRouter';
 import usersRouter from './routes/users';
 
 var app = express();
@@ -44,7 +44,7 @@ connection.on('error', () => {
   console.log('Error Connecting To Database');
 });
 
-app.use('/', indexRouter);
+app.use('/api/v1', apiRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler

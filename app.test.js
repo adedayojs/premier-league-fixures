@@ -12,7 +12,7 @@ afterAll(()=>{
 describe('Server', () => {
   test('Has a /api endpoint', () => {
     return request(app)
-      .get('/')
+      .get('/api/v1')
       .expect('Content-Type', /json/);
   });
 });
