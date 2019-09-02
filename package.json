@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "jest"
+    "test": "jest",
+    "dev": "nodemon ./bin/www"
   },
   "dependencies": {
     "@types/cookie-parser": "^1.4.2",
@@ -24,6 +25,7 @@
     "@types/node": "^12.7.3",
     "@types/supertest": "^2.0.8",
     "jest": "^24.9.0",
+    "nodemon": "^1.19.1",
     "supertest": "^4.0.2",
     "ts-jest": "^24.0.2"
   }
