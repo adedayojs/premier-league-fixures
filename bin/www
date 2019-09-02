@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var app = require('../compiled/app')
 var debug = require('debug')('premier-league-fixures:server');
 var http = require('http');
 

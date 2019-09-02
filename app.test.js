@@ -1,11 +1,13 @@
-import request from 'supertest';
+// import request from 'supertest';
+// import app from './app';
 
-import app from './app';
+const request = require('supertest');
+const app = require('./app');
 
 describe('Server', () => {
   test('Has a /api endpoint', () => {
     return request(app)
-      .get('/api')
+      .get('/')
       .expect('Content-Type', /json/);
   });
 });
