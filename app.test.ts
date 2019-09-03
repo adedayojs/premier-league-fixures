@@ -1,10 +1,6 @@
-// import request from 'supertest';
-// import app from './app';
-// import mongoose from 'mongoose'
-
-const request = require('supertest');
-const app = require('./app');
-const mongoose = require('mongoose')
+import request from 'supertest';
+import app from './app';
+import mongoose from 'mongoose'
 
 afterAll(()=>{
     mongoose.connection.close()
