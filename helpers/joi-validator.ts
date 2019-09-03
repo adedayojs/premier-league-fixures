@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-function validateTeam(recordData: Express.Request): Joi.ValidationResult<Express.Request> {
+function validateTeam(team: Express.Request): Joi.ValidationResult<Express.Request> {
   // Create a Joi Schema To validate incoming record data
   const schema = Joi.object().keys({
     name: Joi.string().required(),
@@ -11,6 +11,19 @@ function validateTeam(recordData: Express.Request): Joi.ValidationResult<Express
     owner: Joi.string(),
     formation: Joi.string()
   });
-  return Joi.validate(recordData, schema);
+  return Joi.validate(team, schema);
 }
-export { validateTeam };
+function validateFixture(fixture: Express.Request): Joi.ValidationResult<Express.Request> {
+  const schema = Joi.object().keys({
+    homeTeam: Joi.string().required(),
+    awayTeam: Joi.string().required(),
+    homeScore: Joi.string().required(),
+    awayScore: Joi.string().required(),
+    date: Joi.date().required(),
+    stadium: Joi.string().required(),
+    referee: Joi.string().required(),
+    isPending: Joi.string().required()
+  });
+  return Joi.validate(fixture, schema);
+}
+export { validateTeam, validateFixture };

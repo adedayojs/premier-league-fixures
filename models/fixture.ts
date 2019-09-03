@@ -1,13 +1,14 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IFixtures extends Document {
-  name: string;
-  manager: string;
-  league: string;
-  established?: Date;
-  formation?: string;
-  owner?: string;
-  fixtures: [{ team: string; date: Date; location: string }];
+  homeTeam: string;
+  awayTeam: string;
+  homeScore: number;
+  awayScore: number;
+  date: Date;
+  stadium: string;
+  referee: string;
+  isPending: boolean;
 }
 const fixtureSchema: Schema = new Schema({
   homeTeam: {
@@ -41,6 +42,11 @@ const fixtureSchema: Schema = new Schema({
   referee: {
     type: String,
     required: true
+  },
+  isPending: {
+    type: Boolean,
+    required: true,
+    default: true
   }
 });
 
