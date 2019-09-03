@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
-export interface IFixtures extends Document {
+export interface IFixture extends Document {
   homeTeam: string;
   awayTeam: string;
   homeScore: number;
@@ -50,4 +50,4 @@ const fixtureSchema: Schema = new Schema({
   }
 });
 
-export default mongoose.model<IFixtures>('Fixture', fixtureSchema);
+export default mongoose.model<IFixture>('Fixture', fixtureSchema);
