@@ -28,9 +28,15 @@ const teamSchema: Schema = new Schema({
   formation: String,
   owner: String,
   fixtures: {
-    required: true,
-    type: [{ team: String, date: Date, location: String }]
+    type: [
+      {
+        team: String,
+        date: Date,
+        location: String
+      }
+    ],
+    required: true
   }
 });
 
-export default mongoose.model<ITeam>('User', teamSchema);
+export default mongoose.model<ITeam>('Team', teamSchema);
