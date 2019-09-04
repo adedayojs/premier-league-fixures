@@ -1,7 +1,7 @@
 import express from 'express';
 import Fixture from '../../models/fixture';
 import { validateFixture } from '../../helpers/joi-validator';
-import validateFixtureInDatabase from '../../helpers/team-in-database-validator';
+import validateTeamInDatabase from '../../helpers/team-in-database-validator';
 
 async function createFixture(req: express.Request, res: express.Response) {
   /*  Check the incoming data to make sure that required fields exist
@@ -15,7 +15,7 @@ async function createFixture(req: express.Request, res: express.Response) {
   /* Check that the teams to be put in fixtures exists in the database,
    return error if they don't exist in the database
 */
-  const isInDatabase = await validateFixtureInDatabase([req.body.homeFixture, req.body.awayFixture]);
+  const isInDatabase = await validateTeamInDatabase([req.body.homeFixture, req.body.awayFixture]);
   if (!isInDatabase) {
     res.status(400).json({ error: 'Fixture(s) Does Not Exist in Database' });
     return;
@@ -50,22 +50,22 @@ async function editFixture(req: express.Request, res: express.Response) {
     return;
   }
 
-  //  If all fields are properly sent, Get Fixture from database by provided team id
+  //  If all fields are properly sent, Get Fixture from database by provided fixture id
   let fixture = await Fixture.findById(req.params.id);
-  //  Return error if team doesnt exist in database
+  //  Return error if fixture doesnt exist in database
   if (!fixture) {
-    res.status(400).json({ error: 'team does not exist' });
+    res.status(400).json({ error: 'fixture does not exist' });
     return;
   }
-  //  If team exists, update team
-  fixture.homeTeam = req.body.homeTeam || fixture.homeTeam;
-  fixture.awayTeam = req.body.awayTeam || fixture.awayTeam;
-  fixture.homeScore = req.body.homeScore || fixture.homeScore;
-  fixture.awayScore = req.body.awayScore || fixture.awayScore;
-  fixture.stadium = req.body.stadium || fixture.stadium;
-  fixture.isPending = req.body.isPending || fixture.isPending;
-  fixture.referee = req.body.referee || fixture.referee;
-  fixture.date = req.body.date || fixture.date;
+  //  If fixture exists, update fixture
+  fixture.homeTeam = req.body.homeTeam;
+  fixture.awayTeam = req.body.awayTeam;
+  fixture.homeScore = req.body.homeScore;
+  fixture.awayScore = req.body.awayScore;
+  fixture.stadium = req.body.stadium;
+  fixture.isPending = req.body.isPending;
+  fixture.referee = req.body.referee;
+  fixture.date = req.body.date;
 
   //  Save Fixture and send updated data, catch any possible errors
   const editedFixture = await fixture.save().catch(err => {
@@ -76,4 +76,16 @@ async function editFixture(req: express.Request, res: express.Response) {
   });
   res.status(200).json(editedFixture);
 }
-export { createFixture, viewFixtures, editFixture };
+
+async function deleteFixture(req: express.Request, res: express.Response) {
+  const deleted = await Fixture.findByIdAndDelete(req.params.id).catch(err => {
+    res.status(500).end();
+    return err;
+  });
+  if (!deleted) {
+    res.status(404).json({ error: 'Fixture Does Not Exist' });
+    return;
+  }
+  res.status(200).json(deleted);
+}
+export { createFixture, viewFixtures, editFixture, deleteFixture };
