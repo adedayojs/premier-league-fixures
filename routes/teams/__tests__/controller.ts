@@ -4,6 +4,7 @@ import Team, { ITeam } from '../../../models/team';
 import mongoose from 'mongoose';
 
 afterAll(async () => {
+  await Team.deleteMany({ name: 'Manchester United' });
   await mongoose.connection.close();
 });
 
@@ -43,6 +44,7 @@ describe('POST ENDPOINT', () => {
           { team: 'Arsenal Fc', date: new Date(2019, 4, 15), location: 'home' }
         ]
       });
+    console.log(res);
     expect(res.status).toBe(201);
   });
 });
@@ -132,10 +134,6 @@ describe('DELETE ENDPOINT', () => {
         { team: 'Arsenal Fc', date: new Date(2019, 4, 15), location: 'home' }
       ]
     }).save();
-  });
-
-  afterAll(async () => {
-    await Team.deleteMany({ name: 'Manchester United' });
   });
 
   it('Should be Defined', async () => {
