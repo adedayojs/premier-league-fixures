@@ -54,6 +54,13 @@ describe('POST ENDPOINT', () => {
       expect(res.status).toBe(400);
     });
 
+    it('Login Endpoint Should return 404 if user is not existing', async () => {
+      const res = await request(app)
+        .post('/api/v1/users/login')
+        .send({ ...data, email: 'bobade@gmail.com' });
+      expect(res.status).toBe(404);
+    });
+
     it('Login Endpoint Should return bad request if wrong password is sent', async () => {
       const res = await request(app)
         .post('/api/v1/users/login')

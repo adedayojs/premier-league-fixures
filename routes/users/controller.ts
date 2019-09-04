@@ -28,10 +28,18 @@ async function createUser(req: express.Request, res: express.Response) {
 }
 
 async function logUserIn(req: express.Request, res: express.Response) {
+  /*  Check incoming data if it matches required data and return error
+      if it doesn't match required data
+      */
   const { error } = validateLogin(req.body);
   if (error) {
     res.status(400).json(error);
     return;
+  }
+  /* Check if user exist in database*/
+  const user = await User.findOne({ email: req.body.email });
+  if(!user){
+    return 
   }
 }
 export { createUser, logUserIn };
