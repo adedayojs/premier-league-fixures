@@ -8,7 +8,7 @@ describe('POST ENDPOINT', () => {
     firstname: 'Adedayo',
     lastname: 'Adedunye',
     email: 'samfeolu@gmail.com',
-    password:'thelordismyshepherd',
+    password: 'thelordismyshepherd',
     role: 'ADMIN'
   };
   afterAll(async () => {
@@ -49,5 +49,24 @@ describe('POST ENDPOINT', () => {
       expect(res.status).not.toBe(404);
     });
 
+    it('Login Endpoint Should return bad request if data is not sent', async () => {
+      const res = await request(app).post('/api/v1/users/login');
+      expect(res.status).toBe(400);
+    });
+
+    it('Login Endpoint Should return bad request if wrong password is sent', async () => {
+      const res = await request(app)
+        .post('/api/v1/users/login')
+        .send({ ...data, password: 'wrongpassword' });
+      expect(res.status).toBe(400);
+    });
+
+    it('Login Endpoint Should return payload and success if required data sent', async () => {
+      const res = await request(app)
+        .post('/api/v1/users/login')
+        .send(data);
+      expect(res.status).toBe(200);
+      expect(res.body.token).toBeDefined();
+    });
   });
 });
