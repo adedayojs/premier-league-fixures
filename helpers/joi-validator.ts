@@ -17,12 +17,12 @@ function validateFixture(fixture: Express.Request): Joi.ValidationResult<Express
   const schema = Joi.object().keys({
     homeTeam: Joi.string().required(),
     awayTeam: Joi.string().required(),
-    homeScore: Joi.string().required(),
-    awayScore: Joi.string().required(),
+    homeScore: Joi.number().required(),
+    awayScore: Joi.number().required(),
     date: Joi.date().required(),
     stadium: Joi.string().required(),
     referee: Joi.string().required(),
-    isPending: Joi.string().required()
+    isPending: Joi.boolean().required()
   });
   return Joi.validate(fixture, schema);
 }

@@ -1,8 +1,9 @@
 import mongoose, { Document, Schema } from 'mongoose';
+import { ITeam } from './team';
 
 export interface IFixture extends Document {
-  homeTeam: string;
-  awayTeam: string;
+  homeTeam: string | ITeam;
+  awayTeam: string | ITeam;
   homeScore: number;
   awayScore: number;
   date: Date;
@@ -13,13 +14,13 @@ export interface IFixture extends Document {
 const fixtureSchema: Schema = new Schema({
   homeTeam: {
     required: true,
-    unique: true,
-    type: String
+    type: Schema.Types.ObjectId,
+    ref: 'Team'
   },
   awayTeam: {
     required: true,
-    unique: true,
-    type: String
+    type: Schema.Types.ObjectId,
+    ref: 'Team'
   },
   homeScore: {
     required: true,
