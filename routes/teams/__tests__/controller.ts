@@ -44,7 +44,6 @@ describe('POST ENDPOINT', () => {
           { team: 'Arsenal Fc', date: new Date(2019, 4, 15), location: 'home' }
         ]
       });
-    console.log(res);
     expect(res.status).toBe(201);
   });
 });
