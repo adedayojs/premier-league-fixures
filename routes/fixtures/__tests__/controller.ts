@@ -55,7 +55,7 @@ describe('POST ENDPOINT', () => {
       });
     expect(res.status).toBe(400);
   });
-  it('Should return response 400 if invalid data is sent', async () => {
+  it('Should return response 500 if bad data is sent', async () => {
     const res = await request(app)
       .post('/api/v1/fixtures')
       .send({
@@ -68,7 +68,7 @@ describe('POST ENDPOINT', () => {
         referee: 'Kazuki Ito',
         isPending: true
       });
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(500);
   });
   it('Should return response 201 if valid data is sent', async () => {
     const res = await request(app)
