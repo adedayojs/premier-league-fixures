@@ -74,6 +74,7 @@ describe('POST ENDPOINT', () => {
         .send(data);
       expect(res.status).toBe(200);
       expect(res.body.token).toBeDefined();
+      expect(res.body.passwork).not.toBeDefined();
     });
   });
 });
