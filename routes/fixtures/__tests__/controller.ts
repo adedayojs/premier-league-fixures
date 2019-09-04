@@ -83,7 +83,7 @@ describe('POST ENDPOINT', () => {
         referee: 'Kazuki Ito',
         isPending: true
       });
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(201);
   });
 });
 
