@@ -123,7 +123,7 @@ describe('PUT ENDPOINT', () => {
     expect(res.status).not.toBe(404);
   });
 
-  it('Should be return bad request if any required field is not present', async () => {
+  it('Should be return server error if invalid object id is provided is not present', async () => {
     const res = await request(app)
       .put(`/api/v1/fixtures/${fixture._id}`)
       .send({
@@ -136,7 +136,7 @@ describe('PUT ENDPOINT', () => {
         referee: 'Kazuki Ito',
         isPending: false
       });
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(500);
   });
 
   it('Should be return success if all required fields are present', async () => {
