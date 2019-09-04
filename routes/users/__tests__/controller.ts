@@ -57,24 +57,24 @@ describe('POST ENDPOINT', () => {
     it('Login Endpoint Should return 404 if user is not existing', async () => {
       const res = await request(app)
         .post('/api/v1/users/login')
-        .send({ ...data, email: 'bobade@gmail.com' });
+        .send({ password: '123', role: 'ADMIN', email: 'bobade@gmail.com' });
       expect(res.status).toBe(404);
     });
 
     it('Login Endpoint Should return bad request if wrong password is sent', async () => {
       const res = await request(app)
         .post('/api/v1/users/login')
-        .send({ ...data, password: 'wrongpassword' });
+        .send({ email: 'samfeolu@gmail.com', password: 'wrongpassword', role: 'ADMIN' });
       expect(res.status).toBe(400);
     });
 
     it('Login Endpoint Should return payload and success if required data sent', async () => {
       const res = await request(app)
         .post('/api/v1/users/login')
-        .send(data);
+        .send({ email: 'samfeolu@gmail.com', password: 'thelordismyshepherd', role: 'ADMIN' });
       expect(res.status).toBe(200);
       expect(res.body.token).toBeDefined();
-      expect(res.body.passwork).not.toBeDefined();
+      expect(res.body.password).not.toBeDefined();
     });
   });
 });
