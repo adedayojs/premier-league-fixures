@@ -76,4 +76,4 @@ async function editFixture(req: express.Request, res: express.Response) {
   });
   res.status(200).json(editedFixture);
 }
-export { createFixture, viewFixtures };
+export { createFixture, viewFixtures, editFixture };
