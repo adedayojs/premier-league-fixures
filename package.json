@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "prestart": "yarn tsc",
+    "postinstall": "yarn tsc",
     "start": "node ./bin/www",
     "test": "jest --runInBand",
     "dev": "nodemon ./bin/www"
