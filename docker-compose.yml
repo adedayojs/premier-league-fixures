@@ -1,0 +1,18 @@
+version: '2'
+
+# Define the services/containers to be run
+services:
+  dnt: #name of your service
+    container_name: cont
+    build: .
+    ports:
+      - "3000:3000" #specify ports forwarding
+    links:
+      - database # link this service to the database service
+    volumes:
+      - .:/usr/src/dnt
+    depends_on:
+      - database
+     
+  database: # name of the service
+    image: mongo # specify image to build container from

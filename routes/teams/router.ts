@@ -5,7 +5,7 @@ const router = Router();
 
 router.post('/', validateAdminRoutes, createTeam);
 router.get('/', viewTeam);
-router.put('/:id', editTeam);
-router.delete('/:id', deleteTeam);
+router.put('/:id', validateAdminRoutes, editTeam);
+router.delete('/:id', validateAdminRoutes, deleteTeam);
 
 export default router;
