@@ -1,4 +1,4 @@
-import Joi from 'joi';
+import Joi from '@hapi/joi';
 
 function validateTeam(team: Express.Request): Joi.ValidationResult<Express.Request> {
   // Create a Joi Schema To validate incoming record data
