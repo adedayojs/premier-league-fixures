@@ -7,24 +7,16 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import redis from 'redis';
 
-const client = redis.createClient();
+// export const client = redis.createClient();
 
-client.on('connect', function() {
-  console.log('Redis client connected');
-});
+// client.on('connect', function() {
+//   console.log('Redis client connected');
+// });
 
-client.on('error', function(err) {
-  console.log('Something went wrong ' + err);
-});
+// client.on('error', function(err) {
+//   console.log('Something went wrong ' + err);
+// });
 
-client.set('my test key', 'my test value', redis.print);
-client.get('my testkey', function(error, result) {
-  if (error) {
-    console.log(result);
-    throw error;
-  }
-  console.log('GET result ->' + result);
-});
 dotenv.config();
 
 import apiRouter from './routes/apiRouter';

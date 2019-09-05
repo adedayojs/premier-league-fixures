@@ -61,6 +61,7 @@ async function editTeam(req: express.Request, res: express.Response) {
   const editedTeam = await team.save();
   res.status(200).json(editedTeam);
 }
+
 async function deleteTeam(req: express.Request, res: express.Response) {
   const deleted = await Team.findByIdAndDelete(req.params.id).catch(err => {
     res.status(500).json(err);
