@@ -2,7 +2,12 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 
 function validateAdminRoutes(req: express.Request, res: express.Response, next: express.NextFunction) {
-  const token = `${req.headers.authorization}`;
+  let token = `${req.headers.authorization}`;
+  const bearer = token.indexOf('Bearer');
+  if (bearer < 0) {
+    res.sendStatus(401).end();
+  }
+  token = token.substring(bearer + 7);
   const secretKey = `${process.env.JWT_LOGIN_TOKEN}`;
   try {
     const payload: any = jwt.verify(token, secretKey);
@@ -10,14 +15,19 @@ function validateAdminRoutes(req: express.Request, res: express.Response, next: 
       next();
       return;
     }
-    res.status(403);
+    res.sendStatus(403);
   } catch (error) {
-    res.status(403);
+    res.sendStatus(403);
   }
 }
 
 function validateUserRoutes(req: express.Request, res: express.Response, next: express.NextFunction) {
-  const token = `${req.headers.authorization}`;
+  let token = `${req.headers.authorization}`;
+  const bearer = token.indexOf('Bearer');
+  if (bearer < 0) {
+    res.sendStatus(401).end();
+  }
+  token = token.substring(bearer + 7);
   const secretKey = `${process.env.JWT_LOGIN_TOKEN}`;
   try {
     const payload: any = jwt.verify(token, secretKey);
@@ -25,10 +35,10 @@ function validateUserRoutes(req: express.Request, res: express.Response, next: e
       next();
       return;
     }
-    res.status(401);
+    res.sendStatus(401);
   } catch (error) {
-    res.status(401);
+    res.sendStatus(401);
   }
 }
 
-export default { validateAdminRoutes, validateUserRoutes };
+export { validateAdminRoutes, validateUserRoutes };

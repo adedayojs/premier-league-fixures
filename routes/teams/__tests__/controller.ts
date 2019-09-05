@@ -17,14 +17,28 @@ describe('POST ENDPOINT', () => {
     expect(res.status).not.toBe(404);
   });
 
-  it('Should return error if no data is sent', async () => {
+  it('Should return error if no token is sent', async () => {
     const res = await request(app).post('/api/v1/teams');
+    expect(res.status).toBe(401);
+  });
+
+  it('Should return error if no data is sent', async () => {
+    const res = await request(app)
+      .post('/api/v1/teams')
+      .set(
+        'Authorization',
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbWZlb2x1QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoic29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNTY3NTY0MDU5fQ.oj8nb4EOW2ZH7WheIcna0L_s2IM9hOeu46JHRZy5LV0'
+      );
     expect(res.status).toBe(400);
   });
 
   it('Should return error if invalid data is sent', async () => {
     const res = await request(app)
       .post('/api/v1/teams')
+      .set(
+        'Authorization',
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbWZlb2x1QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoic29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNTY3NTY0MDU5fQ.oj8nb4EOW2ZH7WheIcna0L_s2IM9hOeu46JHRZy5LV0'
+      )
       .send({
         name: 'Manchester United',
         manager: 'Adedayo ',
@@ -35,6 +49,10 @@ describe('POST ENDPOINT', () => {
   it('Should return response 201 if valid data is sent', async () => {
     const res = await request(app)
       .post('/api/v1/teams')
+      .set(
+        'Authorization',
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbWZlb2x1QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoic29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNTY3NTY0MDU5fQ.oj8nb4EOW2ZH7WheIcna0L_s2IM9hOeu46JHRZy5LV0'
+      )
       .send({
         name: 'Manchester United',
         manager: 'Adedayo ',
@@ -98,6 +116,10 @@ describe('PUT ENDPOINT', () => {
   it('Should be return bad request if any required field is not present', async () => {
     const res = await request(app)
       .put(`/api/v1/teams/${team._id}`)
+      .set(
+        'Authorization',
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbWZlb2x1QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoic29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNTY3NTY0MDU5fQ.oj8nb4EOW2ZH7WheIcna0L_s2IM9hOeu46JHRZy5LV0'
+      )
       .send({ name: 'Manchester United', manager: 'Adedayo ', league: 'EPL' });
     expect(res.status).toBe(400);
   });
@@ -105,6 +127,10 @@ describe('PUT ENDPOINT', () => {
   it('Should be return success if all required fields are present', async () => {
     const res = await request(app)
       .put(`/api/v1/teams/${team._id}`)
+      .set(
+        'Authorization',
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbWZlb2x1QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoic29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNTY3NTY0MDU5fQ.oj8nb4EOW2ZH7WheIcna0L_s2IM9hOeu46JHRZy5LV0'
+      )
       .send({
         name: 'Manchester United',
         manager: 'Robert',
@@ -136,12 +162,22 @@ describe('DELETE ENDPOINT', () => {
   });
 
   it('Should be Defined', async () => {
-    const res = await request(app).delete(`/api/v1/teams/${team._id}`);
+    const res = await request(app)
+      .delete(`/api/v1/teams/${team._id}`)
+      .set(
+        'Authorization',
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbWZlb2x1QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoic29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNTY3NTY0MDU5fQ.oj8nb4EOW2ZH7WheIcna0L_s2IM9hOeu46JHRZy5LV0'
+      );
     expect(res.status).not.toBe(404);
   });
 
   it('Should Not Contain Deleted Data', async () => {
-    await request(app).delete(`/api/v1/teams/${team._id}`);
+    await request(app)
+      .delete(`/api/v1/teams/${team._id}`)
+      .set(
+        'Authorization',
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbWZlb2x1QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoic29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNTY3NTY0MDU5fQ.oj8nb4EOW2ZH7WheIcna0L_s2IM9hOeu46JHRZy5LV0'
+      );
     const res = await Team.findById(team._id);
     expect(res).toBeNull();
   });

@@ -53,6 +53,6 @@ async function logUserIn(req: express.Request, res: express.Response) {
   const secretKey = `${process.env.JWT_LOGIN_TOKEN}`;
   const payload = req.body;
   const token = jwt.sign(payload, secretKey);
-  res.json({ token });
+  res.json({ token: `Bearer ${token}` });
 }
 export { createUser, logUserIn };
