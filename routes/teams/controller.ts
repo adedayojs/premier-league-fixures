@@ -35,8 +35,8 @@ async function editTeam(req: express.Request, res: express.Response) {
   //  If all fields are properly sent, Get Team from database by provided team id
   let team = await Team.findById(req.params.id).catch(err => {
     res.status(500).json(err);
-    return err
-  });;
+    return err;
+  });
   //  Return error if team doesnt exist in database
   if (!team) {
     res.status(400).json({ error: 'team does not exist' });
@@ -57,7 +57,7 @@ async function editTeam(req: express.Request, res: express.Response) {
 }
 async function deleteTeam(req: express.Request, res: express.Response) {
   const deleted = await Team.findByIdAndDelete(req.params.id).catch(err => {
-    res.status(500).end();
+    res.status(500).json(err);
     return err;
   });
   if (!deleted) {
