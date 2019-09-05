@@ -2,6 +2,7 @@ import express from 'express';
 import Team from '../../models/team';
 import { validateTeam } from '../../helpers/joi-validator';
 
+/* Team Creator*/
 async function createTeam(req: express.Request, res: express.Response) {
   // Remember to add Joi Validation when internet comes up
   const { error } = validateTeam(req.body);
@@ -16,7 +17,10 @@ async function createTeam(req: express.Request, res: express.Response) {
   res.status(201).json(team);
   res.end();
 }
+
+/* Team Viewer*/
 async function viewTeam(req: express.Request, res: express.Response) {
+  //  Get requested team from database, hande any possible error
   const teams = await Team.find({}).catch(err => {
     res.status(500).json(err);
   });
@@ -24,6 +28,8 @@ async function viewTeam(req: express.Request, res: express.Response) {
 
   return;
 }
+
+/* Team Editor*/
 async function editTeam(req: express.Request, res: express.Response) {
   //  Validate to make sure that the required parameters are supplied
   const { error } = validateTeam(req.body);
