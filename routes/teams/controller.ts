@@ -23,7 +23,19 @@ async function createTeam(req: express.Request, res: express.Response) {
   client.setex(team._id.toString(), 3600, JSON.stringify(team));
 }
 
-function viewTeam(req: express.Request, res: express.Response) {
+async function viewTeam(req: express.Request, res: express.Response) {
+  /* Check if there is a search Parameter, if there is search*/
+  const queryKeys = Object.keys(req.query);
+  if (queryKeys.length > 0) {
+    const teams = await Team.find(req.query).catch(err => {
+      res
+        .status(500)
+        .send(err)
+        .end();
+    });
+    res.json(teams);
+    return;
+  }
   //  Check Redis Store first for presence of data
   return client.get('allTeams', async (err: any, teams: any) => {
     // If that key exists in Redis store
