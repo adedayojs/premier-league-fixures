@@ -7,15 +7,15 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import redis from 'redis'
 
-export const client = redis.createClient()
+// export const client = redis.createClient()
  
 // echo redis errors to the console
-client.on('error', (err) => {
-    console.log("Error " + err)
-});
-client.on('connect', (err) => {
-    console.log("Redis Connected successfully ")
-});
+// client.on('error', (err) => {
+//     console.log("Error " + err)
+// });
+// client.on('connect', (err) => {
+//     console.log("Redis Connected successfully ")
+// });
  
 dotenv.config();
 
