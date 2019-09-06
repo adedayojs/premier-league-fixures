@@ -86,7 +86,8 @@ describe('GET ENDPOINT', () => {
       ]
     }).save();
     const res = await request(app).get('/api/v1/teams');
-    expect(res.body).toEqual(expect.arrayContaining([expect.objectContaining({ name: team.name })]));
+    expect(res.body).toHaveProperty('data',expect.arrayContaining([expect.objectContaining({ name: team.name })]));
+    // expect(res.body).toEqual(expect.objectContaining({data:expect.arrayContaining([expect.objectContaining({ name: team.name })])}));
   });
 });
 
