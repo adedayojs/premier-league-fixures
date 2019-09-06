@@ -31,15 +31,26 @@ env = process.env.NODE_ENV || 'DEVELOPMENT';
 let envString = env.toUpperCase();
 
 //  Connection to redis
-const redisConn = `${process.env[`REDIS_CONN_${envString}`]}`;
-export const client = redis.createClient({ host: redisConn });
+const redisPass = `${process.env[`REDIS_CONN_PASS_${envString}`]}`;
+const redisHost = `${process.env[`REDIS_CONN_HOST_${envString}`]}`;
+let redisPort: any = `${process.env[`REDIS_CONN_PORT_${envString}`]}`;
+
+console.log(envString, redisPort, redisHost);
+
+redisPort = parseInt(redisPort);
+export const client = redis.createClient({
+  host: redisHost,
+  port: redisPort,
+  no_ready_check: true,
+  auth_pass: redisPass
+});
 
 // echo redis errors to the console
 client.on('error', err => {
   console.log('Error ' + err);
 });
 client.on('connect', err => {
-  console.log(`Connected to Redis @ ${redisConn}`);
+  console.log(`Connected to Redis @ ${redisHost}`);
 });
 
 // Connection to mongoDB
