@@ -1,6 +1,7 @@
 import express from 'express';
-import Team from '../../models/team';
+import Team, { ITeam } from '../../models/team';
 import { validateTeam } from '../../helpers/joi-validator';
+import { client } from '../../app';
 
 /* Team Creator*/
 async function createTeam(req: express.Request, res: express.Response) {
@@ -10,23 +11,33 @@ async function createTeam(req: express.Request, res: express.Response) {
     res.status(400).json(error);
     return;
   }
-  const team = await new Team(req.body).save().catch(err => {
+  const team: any = await new Team(req.body).save().catch(err => {
     res.status(400).json(err.message);
     return;
   });
+
   res.status(201).json(team);
   res.end();
+  client.setex(team._id, 3600, JSON.stringify(team));
 }
 
-/* Team Viewer*/
-async function viewTeam(req: express.Request, res: express.Response) {
-  //  Get requested team from database, hande any possible error
-  const teams = await Team.find({}).catch(err => {
-    res.status(500).json(err);
-  });
-  res.json(teams);
+function viewTeam(req: express.Request, res: express.Response) {
+  //  Check Redis Store first for presence of data
+  return client.get('allTeams', async (err: any, teams: any) => {
+    // If that key exists in Redis store
+    if (teams) {
+      return res.json({ source: 'cache', data: JSON.parse(teams) });
+    } else {
+      //  If key doesnt exist in Redis Store
+      const teams = await Team.find({}).catch(err => {
+        res.status(500).json(err);
+      });
+      client.setex('allTeams', 3600, JSON.stringify(teams));
+      res.json({ source: 'api', data: teams });
 
-  return;
+      return;
+    }
+  });
 }
 
 /* Team Editor*/
@@ -57,8 +68,13 @@ async function editTeam(req: express.Request, res: express.Response) {
   team.established = req.body.established || team.established;
   team.formation = req.body.formation || team.formation;
 
-  //  Save Team and send updated data
+  //  Save Team to database
   const editedTeam = await team.save();
+
+  //  Save Team data to Redis Store
+  client.setex(editedTeam._id, 3600, JSON.stringify(editedTeam));
+
+  //  Send Data to frontend
   res.status(200).json(editedTeam);
 }
 
