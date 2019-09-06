@@ -26,12 +26,19 @@
 version: '3'
 services:
   web:
+    environment:
+      - NODE_ENV=DOCKER
+    container_name: build
     build: .
+    links:
+      - redis
     ports:
-      - "5000:5000"
+      - "3000:3000"
   redis:
+    container_name: redis
     image: "redis:alpine"
     expose:
       - 6379
   mongo:
+    container_name: mongo
     image: mongo
