@@ -2,9 +2,8 @@ import express from 'express';
 import userRouteHandler from './users/router';
 import teamRouteHandler from './teams/router';
 import fixtureRouteHandler from './fixtures/router';
-const router = express.Router();
- 
 const rateLimit = require("express-rate-limit");
+const router = express.Router(); 
  
 // Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
 // see https://expressjs.com/en/guide/behind-proxies.html

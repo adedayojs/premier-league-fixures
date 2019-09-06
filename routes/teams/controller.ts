@@ -1,8 +1,8 @@
 import express from 'express';
 import Team, { ITeam } from '../../models/team';
 import { validateTeam } from '../../helpers/joi-validator';
-// import { client } from '../../app';
-const client:any = {}
+import { client } from '../../app';
+
 /* Team Creator*/
 async function createTeam(req: express.Request, res: express.Response) {
   // Remember to add Joi Validation when internet comes up
