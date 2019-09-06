@@ -2,9 +2,8 @@ import express from 'express';
 import userRouteHandler from './users/router';
 import teamRouteHandler from './teams/router';
 import fixtureRouteHandler from './fixtures/router';
-const router = express.Router();
-import redis from 'redis';
 const rateLimit = require("express-rate-limit");
+const router = express.Router(); 
  
 // Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
 // see https://expressjs.com/en/guide/behind-proxies.html
@@ -15,7 +14,7 @@ const limiter = rateLimit({
   max: 1000, // limit each IP to 100 requests per windowMs
   message:{error:'Too many Request Please Try again in 5 minutes time'}
 });
- 
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

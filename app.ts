@@ -5,6 +5,8 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import redis from 'redis';
+
 dotenv.config();
 
 import apiRouter from './routes/apiRouter';
@@ -28,6 +30,18 @@ env = process.env.NODE_ENV || 'DEVELOPMENT';
 
 let envString = env.toUpperCase();
 
+//  Connection to redis
+const redisConn = `${process.env[`REDIS_CONN_${envString}`]}`;
+export const client = redis.createClient({ host: redisConn });
+
+// echo redis errors to the console
+client.on('error', err => {
+  console.log('Error ' + err);
+});
+client.on('connect', err => {
+  console.log(`Connected to Redis @ ${redisConn}`);
+});
+
 // Connection to mongoDB
 
 const uri = `${process.env[`ATLAS_URI_${envString}`]}`;
@@ -39,7 +53,9 @@ mongoose.connect(uri, {
   useFindAndModify: false
 });
 const connection = mongoose.connection;
-connection.once('open', () => {});
+connection.once('open', () => {
+  console.log(`Connected to mongo @ ${uri}`);
+});
 connection.on('error', () => {
   console.log('Error Connecting To Database');
 });
