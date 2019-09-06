@@ -10,7 +10,7 @@ COPY . /usr/src/dnt
 
 ENV NODE_ENV=DOCKER
 
-RUN yarn tsc
+# RUN yarn tsc
 
 EXPOSE 3000
 
