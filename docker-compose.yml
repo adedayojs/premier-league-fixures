@@ -1,18 +1,37 @@
-version: '2'
+# version: '2'
 
-# Define the services/containers to be run
+# # Define the services/containers to be run
+# services:
+#   dnt: #name of your service
+#     container_name: prem
+#     build: .
+#     ports:
+#       - '3000:3000' #specify ports forwarding
+#     links:
+#       - database # link this service to the database service
+#     volumes:
+#       - .:/usr/src/dnt
+#     depends_on:
+#       - database
+
+#   redis: # name of service
+#   container_name: redis
+#   image: redis
+#   expose:
+#     - 6379
+
+#   database: # name of the service
+#     image: mongo # specify image to build container from
+
+version: '3'
 services:
-  dnt: #name of your service
-    container_name: cont
+  web:
     build: .
     ports:
-      - "3000:3000" #specify ports forwarding
-    links:
-      - database # link this service to the database service
-    volumes:
-      - .:/usr/src/dnt
-    depends_on:
-      - database
-     
-  database: # name of the service
-    image: mongo # specify image to build container from
+      - "5000:5000"
+  redis:
+    image: "redis:alpine"
+    expose:
+      - 6379
+  mongo:
+    image: mongo

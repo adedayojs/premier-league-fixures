@@ -15,6 +15,8 @@ async function createTeam(req: express.Request, res: express.Response) {
     res.status(400).json(err.message);
     return;
   });
+  //  After Creating a new team remove the list of all team on the redis server
+  client.flushall();
 
   res.status(201).json(team);
   res.end();
@@ -71,6 +73,9 @@ async function editTeam(req: express.Request, res: express.Response) {
   //  Save Team to database
   const editedTeam = await team.save();
 
+  //  After Creating a new team flush the redis server
+  client.flushall();
+
   //  Save Team data to Redis Store
   client.setex(editedTeam._id.toString(), 3600, JSON.stringify(editedTeam));
 
@@ -87,6 +92,9 @@ async function deleteTeam(req: express.Request, res: express.Response) {
     res.status(404).json({ error: 'Team Does Not Exist' });
     return;
   }
+  //  Flush the redis server
+  client.flushall();
+
   res.status(200).json(deleted);
 }
 export { createTeam, viewTeam, editTeam, deleteTeam };
