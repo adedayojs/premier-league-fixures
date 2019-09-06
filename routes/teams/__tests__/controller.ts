@@ -97,7 +97,7 @@ describe('PUT ENDPOINT', () => {
     expect(res.status).not.toBe(404);
   });
 
-  it('Should be return bad request if any required field is not present', async () => {
+  it('Should return bad request if any required field is not present', async () => {
     const res = await request(app)
       .put(`/api/v1/teams/5d4155cfcd68f4086d8df504`)
       .set(
@@ -108,7 +108,7 @@ describe('PUT ENDPOINT', () => {
     expect(res.status).toBe(400);
   });
 
-  it('Should be return success if all required fields are present', async () => {
+  it('Should return success if all required fields are present', async () => {
     const res = await request(app)
       .put(`/api/v1/teams/5d4155cfcd68f4086d8df504`)
       .set(
@@ -125,6 +125,7 @@ describe('PUT ENDPOINT', () => {
           { team: '5d4155cfcd68f4086d8df506', date: new Date(2019, 5, 15), location: 'away' }
         ]
       });
+    console.log('This is the response', res.error, res.body);
     expect(res.status).toBe(200);
     expect(res.body.manager).toBe('Robert');
     expect(res.body.fixtures.length).toBe(3);
@@ -149,7 +150,7 @@ describe('DELETE ENDPOINT', () => {
         'Authorization',
         'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbWZlb2x1QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoic29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNTY3NTY0MDU5fQ.oj8nb4EOW2ZH7WheIcna0L_s2IM9hOeu46JHRZy5LV0'
       );
-    const res = await Team.findById('5d4155cfcd68f4086d8df505');
+    const res = await Team.findById('5d4155cfcd68f4086d8df504');
     expect(res).toBeNull();
   });
 });
