@@ -25,7 +25,8 @@ async function createTeam(req: express.Request, res: express.Response) {
 
 async function viewTeam(req: express.Request, res: express.Response) {
   /* Check if there is a search Parameter, if there is search*/
-  if (req.query) {
+  const queryKeys = Object.keys(req.query);
+  if (queryKeys.length > 0) {
     const teams = await Team.find(req.query).catch(err => {
       res
         .status(500)

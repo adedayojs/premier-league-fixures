@@ -32,7 +32,8 @@ async function createFixture(req: express.Request, res: express.Response) {
 
 async function viewFixtures(req: express.Request, res: express.Response) {
   /* Check if there is a search Parameter, if there is search*/
-  if (req.query) {
+  const queryKeys = Object.keys(req.query);
+  if (queryKeys.length > 0) {
     const fixture = await Fixture.find(req.query).catch(err => {
       res
         .status(500)
