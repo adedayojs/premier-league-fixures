@@ -8,11 +8,14 @@ RUN yarn
 
 COPY . /usr/src/dnt
 
+RUN yarn tsc
+
 ENV NODE_ENV=DOCKER
 
-# RUN yarn tsc
 
 EXPOSE 3000
 
 
 CMD ["yarn", "start"]
+
+# CMD ["/bin/bash"]
