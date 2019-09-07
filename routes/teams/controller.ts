@@ -20,7 +20,7 @@ async function createTeam(req: express.Request, res: express.Response) {
 
   res.status(201).json(team);
   res.end();
-  client.setex(team._id.toString(), 3600, JSON.stringify(team));
+  client.setex(team._id.toString(), 60, JSON.stringify(team));
 }
 
 async function viewTeam(req: express.Request, res: express.Response) {
@@ -46,7 +46,7 @@ async function viewTeam(req: express.Request, res: express.Response) {
       const teams = await Team.find({}).catch(err => {
         res.status(500).json(err);
       });
-      client.setex('allTeams', 3600, JSON.stringify(teams));
+      client.setex('allTeams', 60, JSON.stringify(teams));
       res.json({ source: 'api', data: teams });
 
       return;
@@ -89,7 +89,7 @@ async function editTeam(req: express.Request, res: express.Response) {
   client.flushall();
 
   //  Save Team data to Redis Store
-  client.setex(editedTeam._id.toString(), 3600, JSON.stringify(editedTeam));
+  client.setex(editedTeam._id.toString(), 60, JSON.stringify(editedTeam));
 
   //  Send Data to frontend
   res.status(200).json(editedTeam);
