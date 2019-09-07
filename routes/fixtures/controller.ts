@@ -15,7 +15,7 @@ async function createFixture(req: express.Request, res: express.Response) {
   /* Check that the teams to be put in fixtures exists in the database,
    return error if they don't exist in the database
 */
-  const isInDatabase = await validateTeamInDatabase([req.body.homeFixture, req.body.awayFixture]);
+  const isInDatabase = await validateTeamInDatabase([req.body.homeTeam, req.body.awayTeam]);
   if (!isInDatabase) {
     res.status(400).json({ error: 'Fixture(s) Does Not Exist in Database' });
     return;
