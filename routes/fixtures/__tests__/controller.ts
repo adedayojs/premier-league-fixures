@@ -1,14 +1,13 @@
 import app from '../../../app';
 import request from 'supertest';
-import Fixture, { IFixture } from '../../../models/fixture';
-import Team, { ITeam } from '../../../models/team';
+import Fixture from '../../../models/fixture';
 import mongoose from 'mongoose';
 
 afterAll(async () => {
-  await Promise.all([Team.deleteMany({ league: 'EPL' }), Fixture.deleteMany({ stadium: 'Old Trafford' })]);
+  await Promise.all([Fixture.deleteOne({ stadium: 'Test Old Trafford' })]);
+  await mongoose.connection.close();
 });
 
-beforeAll(async () => {});
 describe('POST ENDPOINT', () => {
   it('Should be defined', async () => {
     const res = await request(app).post('/api/v1/fixtures');
@@ -30,6 +29,7 @@ describe('POST ENDPOINT', () => {
       });
     expect(res.status).toBe(400);
   });
+
   it('Should return response 400 if bad data is sent', async () => {
     const res = await request(app)
       .post('/api/v1/fixtures')
@@ -55,10 +55,11 @@ describe('POST ENDPOINT', () => {
         homeScore: 7,
         awayScore: 3,
         date: new Date(2019, 3, 10, 18, 25, 0),
-        stadium: 'Old Trafford',
+        stadium: 'Test Old Trafford',
         referee: 'Kazuki Ito',
         isPending: true
       });
+      console.log(res.error, res.body)
     expect(res.status).toBe(201);
   });
 });

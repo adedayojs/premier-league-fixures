@@ -21,9 +21,7 @@ mongoose.connect(uri, {
   useFindAndModify: false
 });
 const connection = mongoose.connection;
-connection.once('open', () => {
-  console.log(`Connected to mongo @ ${uri}`);
-});
+
 connection.on('error', () => {
   console.log('Error Connecting To Database');
 });

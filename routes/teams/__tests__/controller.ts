@@ -4,13 +4,12 @@ import Team, { ITeam } from '../../../models/team';
 import mongoose from 'mongoose';
 
 afterAll(async () => {
-  await Team.deleteMany({ name: 'Manchester United' });
   await mongoose.connection.close();
 });
 
 describe('POST ENDPOINT', () => {
   afterAll(async () => {
-    await Team.deleteMany({ name: 'Manchester United' });
+    await Team.deleteOne({ manager: 'Zidane' });
   });
 
   it('Should be defined', async () => {
@@ -56,9 +55,9 @@ describe('POST ENDPOINT', () => {
         'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbWZlb2x1QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoic29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNTY3NTY0MDU5fQ.oj8nb4EOW2ZH7WheIcna0L_s2IM9hOeu46JHRZy5LV0'
       )
       .send({
-        name: 'Manchester Random United',
-        manager: 'Adedayo ',
-        league: 'EPL',
+        name: 'Real Madrid',
+        manager: 'Zidane ',
+        league: 'Spanish La Liga',
         fixtures: [
           { team: '5d4155cfcd68f4086d8df500', date: new Date(2019, 3, 15), location: 'home' },
           { team: '5d4155cfcd68f4086d8df505', date: new Date(2019, 4, 15), location: 'home' }
@@ -70,7 +69,7 @@ describe('POST ENDPOINT', () => {
 
 describe('GET ENDPOINT', () => {
   afterAll(async () => {
-    await Team.deleteMany({ league: 'EPL' });
+    await Team.deleteOne({ manager: 'Aded' });
   });
 
   it('should return a created team', async () => {
@@ -135,7 +134,7 @@ describe('PUT ENDPOINT', () => {
 describe('DELETE ENDPOINT', () => {
   it('Should be Defined', async () => {
     const res = await request(app)
-      .delete(`/api/v1/teams/5d4155cfcd68f4086d8df504`)
+      .delete(`/api/v1/teams/5d4155cfcd68f4086d8df505`)
       .set(
         'Authorization',
         'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbWZlb2x1QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoic29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNTY3NTY0MDU5fQ.oj8nb4EOW2ZH7WheIcna0L_s2IM9hOeu46JHRZy5LV0'
@@ -145,12 +144,12 @@ describe('DELETE ENDPOINT', () => {
 
   it('Should Not Contain Deleted Data', async () => {
     await request(app)
-      .delete(`/api/v1/teams/5d4155cfcd68f4086d8df505`)
+      .delete(`/api/v1/teams/5d4155cfcd68f4086d8df502`)
       .set(
         'Authorization',
         'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbWZlb2x1QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoic29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNTY3NTY0MDU5fQ.oj8nb4EOW2ZH7WheIcna0L_s2IM9hOeu46JHRZy5LV0'
       );
-    const res = await Team.findById('5d4155cfcd68f4086d8df504');
+    const res = await Team.findById('5d4155cfcd68f4086d8df502');
     expect(res).toBeNull();
   });
 });
