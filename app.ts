@@ -14,8 +14,10 @@ import usersRouter from './routes/users';
 
 var app = express();
 
+const views = path.join(__dirname, '../views');
+
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', views);
 app.set('view engine', 'jade');
 
 app.use(logger('dev'));
