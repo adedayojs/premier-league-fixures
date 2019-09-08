@@ -50,12 +50,12 @@ describe('POST ENDPOINT', () => {
     const res = await request(app)
       .post('/api/v1/fixtures')
       .send({
-        homeTeam: '5d4155cfcd68f4086d8df504',
-        awayTeam: '5d4155cfcd68f4086d8df502',
+        homeTeam: '5d4155cfcd68f4086d8df508',
+        awayTeam: '5d4155cfcd68f4086d8df507',
         homeScore: 7,
         awayScore: 3,
         date: new Date(2019, 3, 10, 18, 25, 0),
-        stadium: 'Test Old Trafford',
+        stadium: 'Test New Trafford',
         referee: 'Kazuki Ito',
         isPending: true
       });
