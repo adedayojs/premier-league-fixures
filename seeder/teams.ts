@@ -70,7 +70,26 @@ const Teams = [
     formation: '5 4 1',
     owner: 'Glacier Family',
     fixtures: [{ team: '5d4155cfcd68f4086d8df505', date: Date.now(), location: 'Away' }]
+  }),
+  new Team({
+    _id: '5d4155cfcd68f4086d8df507',
+    name: 'Everton City',
+    manager: 'Handsum',
+    league: 'EPL',
+    established: new Date(1966, 3, 12),
+    formation: '5 4 1',
+    owner: 'Glacier Family',
+    fixtures: [{ team: '5d4155cfcd68f4086d8df506', date: Date.now(), location: 'Away' }]
+  }),
+  new Team({
+    _id: '5d4155cfcd68f4086d8df508',
+    name: 'Portsmouth City',
+    manager: 'Muse',
+    league: 'EPL',
+    established: new Date(1966, 3, 12),
+    formation: '5 4 1',
+    owner: 'Glacier Family',
+    fixtures: [{ team: '5d4155cfcd68f4086d8df507', date: Date.now(), location: 'Away' }]
   })
 ];
-
 export default Teams;
