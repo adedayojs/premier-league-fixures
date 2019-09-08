@@ -5,7 +5,7 @@ import Team, { ITeam } from '../../../models/team';
 import mongoose from 'mongoose';
 
 afterAll(async () => {
-  await mongoose.connection.close();
+  await Promise.all([Team.deleteMany({ league: 'EPL' }), Fixture.deleteMany({ stadium: 'Old Trafford' })]);
 });
 
 beforeAll(async () => {});
@@ -30,8 +30,7 @@ describe('POST ENDPOINT', () => {
       });
     expect(res.status).toBe(400);
   });
-
-  it('Should return response 500 if bad data is sent', async () => {
+  it('Should return response 400 if bad data is sent', async () => {
     const res = await request(app)
       .post('/api/v1/fixtures')
       .send({
@@ -44,7 +43,7 @@ describe('POST ENDPOINT', () => {
         referee: 'Kazuki Ito',
         isPending: true
       });
-    expect(res.status).toBe(500);
+    expect(res.status).toBe(400);
   });
 
   it('Should return response 201 if valid data is sent', async () => {

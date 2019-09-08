@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', function(_req, res) {
   res.redirect('../')
 });
 
