@@ -51,9 +51,7 @@ export const client = redis.createClient({
 client.on('error', err => {
   console.log('Error ' + err);
 });
-client.on('connect', () => {
-  console.log(`Connected to Redis @ ${redisHost}`);
-});
+
 
 // Connection to mongoDB
 
@@ -66,9 +64,7 @@ mongoose.connect(uri, {
   useFindAndModify: false
 });
 const connection = mongoose.connection;
-connection.once('open', () => {
-  console.log(`Connected to mongo @ ${uri}`);
-});
+
 connection.on('error', () => {
   console.log('Error Connecting To Database');
 });
