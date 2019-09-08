@@ -70,19 +70,6 @@ describe('GET ENDPOINT', () => {
   afterAll(async () => {
     await Team.deleteMany({ league: 'EPL' });
   });
-  // it('should be defined', async () => {
-  //   const team = await new Team({
-  //     name: 'Manchester City',
-  //     manager: 'Adedayo ',
-  //     league: 'EPL',
-  //     fixtures: [
-  //       { team: 'Chelsea Fc', date: new Date(2019, 3, 15), location: 'home' },
-  //       { team: 'Arsenal Fc', date: new Date(2019, 4, 15), location: 'home' }
-  //     ]
-  //   }).save();
-  //   const res = await request(app).get('/api/v1/teams');
-  //   expect(res.status).not.toBe(404);
-  // });
 
   it('should return a created team', async () => {
     const team = await new Team({
@@ -99,7 +86,6 @@ describe('GET ENDPOINT', () => {
       'data',
       expect.arrayContaining([expect.objectContaining({ name: team.name })])
     );
-    // expect(res.body).toEqual(expect.objectContaining({data:expect.arrayContaining([expect.objectContaining({ name: team.name })])}));
   });
 });
 
