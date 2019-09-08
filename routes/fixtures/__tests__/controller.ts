@@ -5,8 +5,7 @@ import Team, { ITeam } from '../../../models/team';
 import mongoose from 'mongoose';
 
 afterAll(async () => {
-  await Team.deleteMany({ league: 'EPL' });
-  await mongoose.connection.close();
+  await Promise.all([Team.deleteMany({ league: 'EPL' }), Fixture.deleteMany({ stadium: 'Old Trafford' })]);
 });
 let team1: ITeam;
 let team2: ITeam;
