@@ -11,7 +11,7 @@ env = process.env.NODE_ENV || 'DEVELOPMENT';
 let envString = env.toUpperCase();
 
 // Connection to mongoDB
-
+console.log('Env String', envString)
 const uri = `${process.env[`ATLAS_URI_${envString}`]}`;
 
 mongoose.set('useFindAndModify', false);
