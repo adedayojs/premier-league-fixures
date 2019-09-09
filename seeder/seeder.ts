@@ -7,7 +7,7 @@ import fixtureSeeds from './fixtures';
 dotenv.config();
 
 let env = `${process.env.NODE_ENV}`;
-env = process.env.NODE_ENV || 'DEVELOPMENT';
+env = process.env.NODE_ENV || 'TEST';
 let envString = env.toUpperCase();
 
 // Connection to mongoDB
