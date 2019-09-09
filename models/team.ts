@@ -30,7 +30,10 @@ const teamSchema: Schema = new Schema({
   fixtures: {
     type: [
       {
-        team: String,
+        team: {
+          type: mongoose.Types.ObjectId,
+          ref: 'Team'
+        },
         date: Date,
         location: String
       }

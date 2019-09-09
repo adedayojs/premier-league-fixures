@@ -17,7 +17,7 @@ const limiter = rateLimit({
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function(_req, res) {
   res.json({ message: 'all is well' });
 });
 

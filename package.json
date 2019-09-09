@@ -5,8 +5,10 @@
   "scripts": {
     "postinstall": "yarn tsc",
     "start": "node ./bin/www",
+    "pretest": "yarn seeder",
     "test": "jest --runInBand",
-    "dev": "nodemon ./bin/www"
+    "dev": "nodemon ./bin/www",
+    "seeder": "node compiled/seeder/seeder"
   },
   "dependencies": {
     "@hapi/joi": "^15.1.1",

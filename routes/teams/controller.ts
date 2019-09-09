@@ -37,7 +37,7 @@ async function viewTeam(req: express.Request, res: express.Response) {
     return;
   }
   //  Check Redis Store first for presence of data
-  return client.get('allTeams', async (err: any, teams: any) => {
+  return client.get('allTeams', async (_err: any, teams: any) => {
     // If that key exists in Redis store
     if (teams) {
       return res.json({ source: 'cache', data: JSON.parse(teams) });

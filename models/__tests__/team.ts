@@ -20,14 +20,13 @@ mongoose.connect(uri, {
   useFindAndModify: false
 });
 const connection = mongoose.connection;
-connection.once('open', () => {});
 connection.on('error', () => {
   console.log('Error Connecting To Database');
 });
 
 const teamObject = {
   _id: new mongoose.Types.ObjectId().toHexString(),
-  name: 'Manchester United',
+  name: 'Manchester United FC',
   manager: 'Alexander Ferguson',
   league: 'English Premier League'
 };
@@ -39,7 +38,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await Team.deleteMany({ name: 'Manchester United' });
+  await Team.findByIdAndDelete(result._id);
   await mongoose.connection.close();
 });
 
