@@ -1,39 +1,13 @@
 import app from '../../../app';
 import request from 'supertest';
-import Fixture, { IFixture } from '../../../models/fixture';
-import Team, { ITeam } from '../../../models/team';
+import Fixture from '../../../models/fixture';
 import mongoose from 'mongoose';
 
 afterAll(async () => {
-  await Team.deleteMany({ league: 'EPL' });
+  await Promise.all([Fixture.deleteOne({ stadium: 'Test Old Trafford' })]);
   await mongoose.connection.close();
 });
-let team1: ITeam;
-let team2: ITeam;
 
-beforeAll(async () => {
-  team1 = await new Team({
-    _id: mongoose.Types.ObjectId(),
-    name: 'Manchester United',
-    manager: 'Adedayo ',
-    league: 'EPL',
-    fixtures: [
-      { team: 'Chelsea Fc', date: new Date(2019, 3, 15), location: 'home' },
-      { team: 'Arsenal Fc', date: new Date(2019, 4, 15), location: 'home' }
-    ]
-  }).save();
-
-  team2 = await new Team({
-    _id: mongoose.Types.ObjectId(),
-    name: 'Manchester City',
-    manager: 'AdedayoJs ',
-    league: 'EPL',
-    fixtures: [
-      { team: 'Chelsea Fc', date: new Date(2019, 4, 15), location: 'home' },
-      { team: 'Arsenal Fc', date: new Date(2019, 4, 8), location: 'home' }
-    ]
-  }).save();
-});
 describe('POST ENDPOINT', () => {
   it('Should be defined', async () => {
     const res = await request(app).post('/api/v1/fixtures');
@@ -55,7 +29,8 @@ describe('POST ENDPOINT', () => {
       });
     expect(res.status).toBe(400);
   });
-  it('Should return response 500 if bad data is sent', async () => {
+
+  it('Should return response 400 if bad data is sent', async () => {
     const res = await request(app)
       .post('/api/v1/fixtures')
       .send({
@@ -68,21 +43,23 @@ describe('POST ENDPOINT', () => {
         referee: 'Kazuki Ito',
         isPending: true
       });
-    expect(res.status).toBe(500);
+    expect(res.status).toBe(400);
   });
+
   it('Should return response 201 if valid data is sent', async () => {
     const res = await request(app)
       .post('/api/v1/fixtures')
       .send({
-        homeTeam: team1._id,
-        awayTeam: team2._id,
+        homeTeam: '5d4155cfcd68f4086d8df508',
+        awayTeam: '5d4155cfcd68f4086d8df507',
         homeScore: 7,
         awayScore: 3,
         date: new Date(2019, 3, 10, 18, 25, 0),
-        stadium: 'Old Trafford',
+        stadium: 'Test New Trafford',
         referee: 'Kazuki Ito',
         isPending: true
       });
+      console.log(res.error, res.body)
     expect(res.status).toBe(201);
   });
 });
@@ -100,32 +77,14 @@ describe('GET ENDPOINT', () => {
 });
 
 describe('PUT ENDPOINT', () => {
-  let fixture: IFixture;
-  beforeAll(async () => {
-    fixture = await new Fixture({
-      homeTeam: team2._id,
-      awayTeam: team1._id,
-      homeScore: 7,
-      awayScore: 3,
-      date: new Date(2019, 3, 10, 18, 25, 0),
-      stadium: 'Old Trafford',
-      referee: 'Kazuki Ito',
-      isPending: true
-    }).save();
-  });
-
-  afterAll(async () => {
-    await Fixture.deleteMany({ homeTeam: team2._id });
-  });
-
   it('Should be defined', async () => {
-    const res = await request(app).put(`/api/v1/fixtures/${fixture._id}`);
+    const res = await request(app).put(`/api/v1/fixtures/5d7283618b1c6ea15c999ae7`);
     expect(res.status).not.toBe(404);
   });
 
-  it('Should be return server error if invalid object id is provided is not present', async () => {
+  it('Should be return server error if invalid object id is provided ', async () => {
     const res = await request(app)
-      .put(`/api/v1/fixtures/${fixture._id}`)
+      .put(`/api/v1/fixtures/5d7283618b1c6ea15c999ae7`)
       .send({
         homeTeam: 'team2._id',
         awayTeam: 'team1._id',
@@ -141,10 +100,10 @@ describe('PUT ENDPOINT', () => {
 
   it('Should be return success if all required fields are present', async () => {
     const res = await request(app)
-      .put(`/api/v1/fixtures/${fixture._id}`)
+      .put(`/api/v1/fixtures/5d7283618b1c6ea15c999ae7`)
       .send({
-        homeTeam: team2._id,
-        awayTeam: team1._id,
+        homeTeam: '5d4155cfcd68f4086d8df503',
+        awayTeam: '5d4155cfcd68f4086d8df502',
         homeScore: 5,
         awayScore: 3,
         date: new Date(2019, 3, 10, 18, 25, 0),
@@ -159,32 +118,14 @@ describe('PUT ENDPOINT', () => {
 });
 
 describe('DELETE ENDPOINT', () => {
-  let fixture: IFixture;
-  beforeEach(async () => {
-    fixture = await new Fixture({
-      homeTeam: team2._id,
-      awayTeam: team1._id,
-      homeScore: 7,
-      awayScore: 3,
-      date: new Date(2019, 3, 10, 18, 25, 0),
-      stadium: 'Old Trafford',
-      referee: 'Kazuki Ito',
-      isPending: true
-    }).save();
-  });
-
-  afterAll(async () => {
-    await Fixture.deleteMany({ homeTeam: team2._id });
-  });
-
   it('Should be Defined', async () => {
-    const res = await request(app).delete(`/api/v1/fixtures/${fixture._id}`);
+    const res = await request(app).delete(`/api/v1/fixtures/5d7283618b1c6ea15c999ae9`);
     expect(res.status).not.toBe(404);
   });
 
   it('Should Not Contain Deleted Data', async () => {
-    await request(app).delete(`/api/v1/fixtures/${fixture._id}`);
-    const res = await Fixture.findById(fixture._id);
+    await request(app).delete(`/api/v1/fixtures/5d7283618b1c6ea15c999ae8`);
+    const res = await Fixture.findById('5d7283618b1c6ea15c999ae8');
     expect(res).toBeNull();
   });
 });

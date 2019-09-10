@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
+import { ITeam } from './team';
 
 export interface IUser extends Document {
   firstName?: string;
@@ -7,7 +8,7 @@ export interface IUser extends Document {
   password: string;
   phone?: string;
   role: string;
-  club?: string;
+  club?: string | ITeam;
 }
 
 const userSchema: Schema = new Schema({
@@ -40,7 +41,7 @@ const userSchema: Schema = new Schema({
     },
     required: [true, 'User should have a role']
   },
-  club: String
+  club: { type: mongoose.Types.ObjectId, ref: 'Team' }
 });
 
 export default mongoose.model<IUser>('User', userSchema);
